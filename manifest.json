@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "Event Blocker",
+  "version": "1.0",
+  "description": "Blocks events with the name 'Lost focus'",
+  "permissions": ["webRequest", "webNavigation", "<all_urls>"],
+  "browser_action": {
+    "default_icon": {
+      "48": "icon.png"
+    },
+    "default_title": "Event Blocker"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://edgar.fer.hr/exam/run/1"],
+      "js": ["content.js"]
+    }
+  ]
+}
