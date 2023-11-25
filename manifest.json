@@ -3,7 +3,12 @@
   "name": "Event Blocker",
   "version": "1.0",
   "description": "Blocks events with the name 'Lost focus'",
-  "permissions": ["webRequest", "webNavigation", "<all_urls>"],
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "webNavigation",
+    "<all_urls>"
+  ],
   "browser_action": {
     "default_icon": {
       "48": "icon.png"

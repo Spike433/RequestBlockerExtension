@@ -1,5 +1,7 @@
 // background.js
 
+console.log("Event Blocker extension is starting...");
+
 chrome.webRequest.onBeforeRequest.addListener(
   function (details) {
     // Check if the request contains the specified event name
@@ -15,6 +17,7 @@ chrome.webRequest.onBeforeRequest.addListener(
 
       if (requestBody.entries.some((entry) => entry.eventName === eventName)) {
         // Block the request
+        console.log("Event Blocker extension blocked the request.");
         return { cancel: true };
       }
     }
