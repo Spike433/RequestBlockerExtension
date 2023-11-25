@@ -19,21 +19,53 @@ chrome.webRequest.onBeforeRequest.addListener(
       return;
     }
 
-    const eventName = "Lost focus";
-    const eventDataToBlock = "Warning - student could be cheating (alt+tab)?";
+    const eventNameToBlock = "Lost focus";
+    const eventNameToAllow = "Answer saved";
 
-    if (
-      requestBody.entries.some(
-        (entry) =>
-          entry.eventName === eventName && entry.eventData === eventDataToBlock
-      )
-    ) {
+    const hasLostFocusEvent = requestBody.entries.some(
+      (entry) => entry.eventName === eventNameToBlock
+    );
+
+    const hasAnswerSavedEvent = requestBody.entries.some(
+      (entry) => entry.eventName === eventNameToAllow
+    );
+
+    if (hasLostFocusEvent && !hasAnswerSavedEvent) {
       // Block the request
       console.log("Event Blocker extension blocked the request.");
       console.log("Raw request body: " + JSON.stringify(requestBody));
 
       return { cancel: true };
     }
+
+    const eventToAlsoFilter = "Got focus";
+    requestBody.entries = requestBody.entries.filter(
+      (entry) =>
+        entry.eventName !== eventNameToBlock &&
+        entry.eventName !== eventToAlsoFilter
+    );
+
+    const modifiedRequestBody = {
+      ...requestBody,
+    };
+
+    // Convert the modified payload back to a string
+    const modifiedPayloadString = JSON.stringify(modifiedRequestBody);
+
+    // Set the modified payload in the request
+    details.requestBody = {
+      raw: [
+        {
+          bytes: new TextEncoder().encode(modifiedPayloadString),
+        },
+      ],
+    };
+
+    console.log("Event Blocker extension modified the request payload.");
+    console.log("Modified request body: " + modifiedPayloadString);
+
+    //not working
+    return { requestBody: details.requestBody };
   },
   { urls: ["<all_urls>"] },
   ["blocking", "requestBody"]
