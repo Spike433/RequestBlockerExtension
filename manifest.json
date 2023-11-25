@@ -11,7 +11,7 @@
   ],
   "browser_action": {
     "default_icon": {
-      "48": "logo.jpg"
+      "48": "icon.png"
     },
     "default_title": "Event Blocker"
   },
