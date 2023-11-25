@@ -11,3 +11,7 @@
 4. Navigate to the directory where you have your extension files.
 
 5. Select the manifest.json file and click "Open."
+
+## Test Example
+
+- Demo UPRO
